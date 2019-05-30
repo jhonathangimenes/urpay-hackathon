@@ -1,31 +1,46 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <NavBar/>
+    <v-content>
+      <v-container fluid>
+        <transition name="list" mode="out-in">
+          <router-view></router-view>
+        </transition>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
+<script>
+import NavBar from "@/components/navbar/NavBar.vue";
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+export default {
+  name: "App",
+  components: {
+    NavBar
+  },
+  data() {
+    return {
+      //
+    };
+  }
+};
+</script>
+<style scoped>
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(-70px);
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s;
+}
+.list-move {
+  transition: all 0.5s;
+}
+.list-leave-active {
+  position: absolute;
+  width: calc(100% - 31px);
 }
 </style>
