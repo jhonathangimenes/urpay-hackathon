@@ -15,27 +15,18 @@ export default {
     })
   },
   extrato() {
-      return [
-        {
-          valor: -325.48,
-          pago: "Centauros",
-          data: "23/02/2019"
-        },
-        {
-          valor: -3205.69,
-          pago: "Kabum",
-          data: "09/04/2019"
-        },
-        {
-          valor: 995.78,
-          pago: "Maria Silva",
-          data: "06/05/2019"
-        },
-        {
-          valor: -1257.25,
-          pago: "Amazon",
-          data: "13/04/2019"
-        }
-      ];
+    let user = JSON.parse(window.localStorage.getItem('user')) ;
+    let id = user.id
+    return api.get(`/transactions/${id}`)
+  },
+  transferencia(transfer) {
+    return api.post('/transactions/transfer', {
+      transferValue: transfer.valor,
+      userCreditId: transfer.userCred,
+      userDebitId: transfer.userDeb
+    })
+  },
+  getUsers() {
+    return api.get('/user/getAll')
   }
 }

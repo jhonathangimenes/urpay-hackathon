@@ -39,12 +39,7 @@ export default {
     methods: {
         ...mapActions(['auth']),
         autenticacao() {
-            try {
-                this.auth(this.user)
-            } catch(e) {
-                console.log(e)
-            }
-            
+            this.auth(this.user)
         }
     }
 }

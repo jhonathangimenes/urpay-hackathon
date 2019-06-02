@@ -1,18 +1,9 @@
 <template>
   <v-toolbar dark color="primary" app>
-    <v-toolbar-side-icon @click="$emit('menu')"></v-toolbar-side-icon>
     <router-link to="/">
       <v-toolbar-title class="white--text">Urpay</v-toolbar-title>
     </router-link>
     <v-spacer></v-spacer>
-
-    <v-btn icon>
-      <v-icon>apps</v-icon>
-    </v-btn>
-
-    <v-btn icon>
-      <v-icon @click="refresh()">refresh</v-icon>
-    </v-btn>
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
         <v-list-tile-avatar>

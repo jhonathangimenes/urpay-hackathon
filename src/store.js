@@ -2,21 +2,22 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import service from './service.js'
 import router from './router';
+import { CLIENT_RENEG_WINDOW } from 'tls';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     extrato: [],
+    users: [],
     loader: false
   },
   mutations: {
     getExtrato: (state, payload) => {
-      state.loader = true
-      setTimeout(() => { 
-        state.extrato = payload
-        state.loader = false
-       }, 3000);
+      state.extrato = payload
+    },
+    getUsers: (state, payload) => {
+      state.users = payload
     }
   },
   actions: {
@@ -36,8 +37,29 @@ export default new Vuex.Store({
         console.log(e)
       });
     },
-    getExtrato: (context, payload) => {
-      context.commit('getExtrato', service.extrato())
+    getExtrato: (context, payload, state) => {
+      localStorage.getItem('user') == null 
+        ? router.push('/login')
+        : service.extrato().then(response => {
+          context.commit('getExtrato', response.data)
+          state.loader = false
+          }).catch(e => {
+            console.log(e)
+          });
+    },
+    getUsers: (context, payload, state) => {
+      service.getUsers().then(response => {
+        context.commit('getUsers', response.data)
+        }).catch(e => {
+          console.log(e)
+        });
+    },
+    transferr: (context, payload) => {
+      service.transferencia(payload).then(response => {
+        console.log(response)
+        }).catch(e => {
+          console.log(e)
+        });
     }
   }
 })
