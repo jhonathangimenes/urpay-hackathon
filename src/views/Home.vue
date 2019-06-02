@@ -1,7 +1,12 @@
 <template>
-  <div>Home</div>
+  <Extrato/>
 </template>
 
 <script>
-export default {};
+import Extrato from '@/components/Extrato.vue'
+export default {
+  components: {
+    Extrato
+  }
+};
 </script>

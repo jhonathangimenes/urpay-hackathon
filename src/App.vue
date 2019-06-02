@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <NavBar/>
+    <NavBar v-if="!navBar"/>
     <v-content>
-      <v-container fluid>
+      <v-container>
         <transition name="list" mode="out-in">
           <router-view></router-view>
         </transition>
@@ -23,10 +23,19 @@ export default {
     return {
       //
     };
+  },
+  computed: {
+    navBar() {
+      return this.$route.path == '/login' || this.$route.path == '/registrar'
+    }
   }
 };
 </script>
 <style scoped>
+.container {
+  height: 100vh;
+}
+
 .list-enter,
 .list-leave-to {
   opacity: 0;

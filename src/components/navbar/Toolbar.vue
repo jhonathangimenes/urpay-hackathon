@@ -7,18 +7,67 @@
     <v-spacer></v-spacer>
 
     <v-btn icon>
-      <v-icon>search</v-icon>
-    </v-btn>
-
-    <v-btn icon>
       <v-icon>apps</v-icon>
     </v-btn>
 
     <v-btn icon>
-      <v-icon>refresh</v-icon>
+      <v-icon @click="refresh()">refresh</v-icon>
     </v-btn>
-    <v-list-tile-avatar>
-      <img src="https://randomuser.me/api/portraits/men/85.jpg">
-    </v-list-tile-avatar>
+    <v-menu offset-y>
+      <template v-slot:activator="{ on }">
+        <v-list-tile-avatar>
+          <v-gravatar :email="email" v-on="on"/>
+        </v-list-tile-avatar>
+      </template>
+      <v-list>
+        <v-list-tile
+          v-for="(item, index) in items"
+          :key="index"
+          @click="sair()"
+        >
+          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
   </v-toolbar>
 </template>
+
+<script>
+import { mapState, mapActions } from 'vuex'
+
+export default {
+  data() {
+    return {
+      email: '',
+      items: [
+        { title: 'Sair' },
+      ]
+    }
+  },
+  created() {
+    let user = JSON.parse(window.localStorage.getItem('user')) ;
+    this.email = user.email
+  },
+  computed: {
+    ...mapState(['user'])
+  },
+  methods: {
+    ...mapActions(['getExtrato']),
+    refresh() {
+      this.getExtrato();
+    },
+    sair() {
+      window.localStorage.removeItem('user');
+      this.$router.push('/login')
+    }
+  }
+}
+</script>
+
+<style scoped>
+  .v-list {
+    padding: 0px;
+  }
+</style>
+
+
